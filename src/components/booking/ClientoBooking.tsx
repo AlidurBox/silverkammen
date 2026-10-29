@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { business } from "@/data/business";
 import { ClientoCartDetails } from "./ClientoCartDetails";
+import { ClientoPinField } from "./ClientoPinField";
 
 /**
  * Inbäddad Cliento-bokningswidget (widget-v3).
@@ -64,6 +65,21 @@ function configureQueue() {
   window.cbk("id", business.booking.clientoWidgetId);
   window.cbk("locale", "sv");
   window.cbk("style", { primaryColor: "#1f1c19" });
+  // Egna texter i bekräftelsesteget. `customTexts` är inte dokumenterad men
+  // läses av widgeten och skriver över dess svenska texter. Försvinner den
+  // visas bara Clientos standardtexter igen.
+  window.cbk("customTexts", {
+    "verify.confirmHeading": "Bekräfta din bokning",
+    "timer.remaining": "Tiden reserveras i {time}",
+    // Widgeten skickar bara {phone} till rubriken, så rubrik och undertext
+    // byter plats i CSS (se globals.css) för att numret ska hamna i undertexten.
+    "verify.confirmPinHeading": "Vi har skickat en 6-siffrig kod till {phone}",
+    "verify.confirmPinMessage": "Ange koden från SMS:et",
+    "verify.confirmNoPinHeading": "Stämmer uppgifterna?",
+    "verify.confirmBooking": "Bekräfta bokning",
+    "verify.cancelOrEditBooking": "Ändra bokning",
+    "error.wrongPin": "Fel kod, försök igen",
+  });
 }
 
 function watchForWidget(record: MountRecord) {
@@ -129,6 +145,7 @@ export function ClientoBooking() {
   return (
     <div className="relative">
       {status === "ready" && <ClientoCartDetails />}
+      {status === "ready" && <ClientoPinField />}
       {/* Clientos widget monteras här. React renderar aldrig barn i den. */}
       <div
         id={CONTAINER_ID}

@@ -12,6 +12,7 @@
   --color-smoke: #3b3733;
   --color-stone: #6b645c;
   --color-bronze: #94744a;
+  --color-espresso: #3b2a1f;
   --color-line: rgb(29 27 25 / 0.1);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -155,7 +156,7 @@
   margin: 0 auto;
   padding: 8px 8px 8px 22px !important;
   background: #fff !important;
-  border: 1px solid var(--color-line);
+  border: 1.5px solid var(--color-espresso);
   border-radius: 9999px !important;
   box-shadow: 0 12px 32px -10px rgb(29 27 25 / 0.28);
 }
@@ -174,9 +175,19 @@
   overscroll-behavior: contain;
   background: #fff !important;
   color: var(--color-ink);
-  border: 1px solid var(--color-line);
+  border: 1.5px solid var(--color-espresso);
   border-radius: 24px !important;
   box-shadow: 0 16px 40px -12px rgb(29 27 25 / 0.3);
+}
+/* Ingen synlig scrollist i kortet (eller i Clientos inre element) –
+   innehållet går fortfarande att scrolla när sammanfattningen är utfälld. */
+.cliento-custom-theme .cb-service-summary-sticky,
+.cliento-custom-theme .cb-service-summary-sticky * {
+  scrollbar-width: none;
+}
+.cliento-custom-theme .cb-service-summary-sticky::-webkit-scrollbar,
+.cliento-custom-theme .cb-service-summary-sticky *::-webkit-scrollbar {
+  display: none;
 }
 .cliento-custom-theme .cb-service-summary-sticky .cb-service-summary-header {
   padding: 14px 14px 14px 22px !important;
@@ -217,4 +228,99 @@
   min-height: 44px;
   padding: 0 26px !important;
   border-radius: 9999px !important;
+}
+
+/* ─────────────── Bekräftelsesteget (PIN) ───────────────
+   Texterna sätts med customTexts i ClientoBooking, platshållaren och
+   "har försökt skicka"-markeringen i ClientoPinField. */
+
+/* Sammanfattningen: värden i normal vikt, etiketterna lite tyngre. */
+.cliento-custom-theme .cb-modal-content .cb-summary-list .cb-summary-text {
+  font-weight: 400 !important;
+}
+.cliento-custom-theme .cb-modal-content .cb-summary-list .cb-summary-text span {
+  font-weight: 400 !important;
+}
+.cliento-custom-theme .cb-modal-content .cb-summary-list .cb-summary-text > span:first-child {
+  font-weight: 500 !important;
+}
+
+/* Rubrik och undertext. Widgeten ger bara rubriken ({phone}) telefonnumret,
+   så elementen byter roll: <p> blir rubrik och <h4> grå undertext. */
+.cliento-custom-theme .cb-confirm-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.cliento-custom-theme .cb-confirm-pin p {
+  order: -1;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+.cliento-custom-theme .cb-confirm-pin h4 {
+  margin: 0 0 20px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-stone);
+}
+
+/* Fältet: ljusgrå platshållare i stället för stora "PIN". */
+.cliento-custom-theme .cb-code .cb-input::placeholder {
+  color: #c9c3bb;
+  opacity: 1;
+}
+
+/* Felmeddelanden under fältet. Formuläret blir en kolumn så att Clientos
+   felruta (fel kod) kan flyttas till under fältet. */
+.cliento-custom-theme .cb-form:has(> .cb-code) {
+  display: flex;
+  flex-direction: column;
+}
+.cliento-custom-theme .cb-form:has(> .cb-code) > .cb-error {
+  order: 1;
+  margin: 0 auto;
+  padding: 0 !important;
+  background: none;
+  border: 0;
+  font-size: 0.875rem;
+}
+.cliento-custom-theme .cb-form:has(> .cb-code) > .cb-code ~ * {
+  order: 2;
+}
+.cliento-custom-theme .cb-code {
+  display: flex;
+  flex-direction: column;
+}
+.cliento-custom-theme .cb-code .cb-label {
+  order: 2;
+  margin: 6px 0 0;
+}
+
+/* "måste fyllas i" visas först när kunden har klickat på knappen,
+   och med en egen text. */
+.cliento-custom-theme .cb-code .cb-label-error {
+  display: none;
+}
+.cliento-custom-theme .cb-form[data-sk-submitted] .cb-code .cb-label-error {
+  display: inline;
+  font-size: 0;
+}
+.cliento-custom-theme .cb-form[data-sk-submitted] .cb-code .cb-label-error::after {
+  content: "Fyll i koden för att bekräfta";
+  font-size: 0.875rem;
+}
+
+/* "Ändra bokning" som diskret grå textlänk. */
+.cliento-custom-theme .cb-form a.cb-cancel,
+.cliento-custom-theme .cb-form a.cb-cancel:link,
+.cliento-custom-theme .cb-form a.cb-cancel:visited,
+.cliento-custom-theme .cb-form a.cb-cancel:hover,
+.cliento-custom-theme .cb-form a.cb-cancel:active {
+  color: var(--color-stone);
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
