@@ -3,20 +3,8 @@ import { business, type OpeningHours } from "@/data/business";
 import { allServices } from "@/data/services";
 import { images } from "@/data/images";
 
-/**
- * Produktionsdomänen sätts med NEXT_PUBLIC_SITE_URL (t.ex. https://silverkammen.se).
- * Saknas den används Vercels produktions-URL, annars localhost under utveckling.
- * Canonical-taggar skrivs bara ut när domänen är uttryckligen angiven.
- */
-const explicitSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-
-export const siteUrl =
-  explicitSiteUrl ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "http://localhost:3000");
-
-export const hasCanonicalDomain = Boolean(explicitSiteUrl);
+/** Produktionsdomänen (src/data/business.ts). Används för canonical, OG och sitemap. */
+export const siteUrl = business.url;
 
 type PageMeta = {
   title: string;
@@ -37,7 +25,7 @@ export function pageMetadata({ title, description, path }: PageMeta): Metadata {
   return {
     title,
     description,
-    alternates: hasCanonicalDomain ? { canonical: path } : undefined,
+    alternates: { canonical: path },
     // Sidans openGraph ersätter layoutens helt, därför upprepas bilden här.
     openGraph: {
       title: socialTitle,

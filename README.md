@@ -114,10 +114,9 @@ För hero passar en liggande bild i hög upplösning bäst på dator.
 
 ## Domän och SEO
 
-Sätt miljövariabeln `NEXT_PUBLIC_SITE_URL` (se `.env.example`), t.ex.
-`https://www.din-doman.se`. Den styr canonical-taggar, Open Graph,
-`sitemap.xml` och `robots.txt`. Utan variabeln används Vercels
-produktions-URL och inga canonical-taggar skrivs ut.
+Domänen är `https://silverkammen.se` och anges i `src/data/business.ts`
+(`business.url`). Den används i canonical-taggar, Open Graph, `sitemap.xml`,
+`robots.txt` och strukturerad data. Ingen miljövariabel behövs.
 
 Strukturerad data (schema.org `HairSalon`) innehåller bara verifierade
 uppgifter: namn, adress, telefon, e-post, öppettider och tjänster med priser.
@@ -127,7 +126,5 @@ uppgifter: namn, adress, telefon, e-post, öppettider och tjänster med priser.
 1. Pusha projektet till ett Git-repo (GitHub, GitLab eller Bitbucket).
 2. Välj **Add New → Project** i Vercel och importera repot. Next.js upptäcks
    automatiskt, så inga build-inställningar behöver ändras.
-3. Lägg till miljövariabeln `NEXT_PUBLIC_SITE_URL` med produktionsdomänen
-   under **Settings → Environment Variables**.
-4. Koppla domänen under **Settings → Domains** och kör en ny deploy, så att
+3. Koppla domänen under **Settings → Domains** och kör en ny deploy, så att
    canonical-taggar och sitemap använder rätt domän.

@@ -6,6 +6,8 @@
 
 export const business = {
   name: "Silverkammen",
+  /** Webbplatsens domän – används för canonical-taggar, sitemap och delningar. */
+  url: "https://silverkammen.se",
   tagline: "Barbershop i Söderköping",
   description:
     "Silverkammen är en barbershop i Söderköping som förenar traditionellt barberarhantverk med moderna stilar – klassiska och moderna herrklippningar, skäggbehandlingar och personlig service.",

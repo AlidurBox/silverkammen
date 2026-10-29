@@ -8,11 +8,10 @@ import { PriceList } from "@/components/sections/PriceList";
 import { ButtonLink, TextLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { hasCanonicalDomain } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: { absolute: "Silverkammen – Barbershop & herrfrisör i Söderköping" },
-  alternates: hasCanonicalDomain ? { canonical: "/" } : undefined,
+  alternates: { canonical: "/" },
 };
 
 export default function HomePage() {
