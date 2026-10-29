@@ -114,7 +114,7 @@ export function ClientoCartDetails() {
       aria-label="Valda tjänster"
       hidden={!open}
       style={{ left: rect.left, width: rect.width, bottom: rect.bottom }}
-      className="fixed z-[2147483646] max-h-[50vh] overflow-y-auto rounded-3xl border border-line bg-white p-2 shadow-[0_16px_40px_-12px_rgb(29_27_25/0.3)]"
+      className="fixed z-[2147483646] max-h-[50vh] overflow-y-auto rounded-3xl border-[1.5px] border-espresso bg-white p-2 shadow-[0_16px_40px_-12px_rgb(29_27_25/0.3)]"
     >
       <ul className="divide-y divide-line">
         {selected.map((s) => (
