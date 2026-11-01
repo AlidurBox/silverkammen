@@ -1,6 +1,6 @@
 import { MapPin } from "lucide-react";
 import { BOOKING_PATH, business, formatHours } from "@/data/business";
-import { getOpeningHours } from "@/lib/cliento";
+import { getOpeningHours } from "@/lib/google-places";
 import { MapEmbed } from "@/components/sections/MapEmbed";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -23,7 +23,7 @@ const rows = [
 ];
 
 export default async function ContactPage() {
-  const openingHours = await getOpeningHours();
+  const { hours, fromGoogle } = await getOpeningHours();
 
   return (
     <>
@@ -65,13 +65,14 @@ export default async function ContactPage() {
                 Öppettider
               </h2>
               <dl className="mt-5 divide-y divide-line border-y border-line">
-                {openingHours.map((h) => (
+                {hours.map((h) => (
                   <div key={h.day} className="flex justify-between gap-6 py-3">
                     <dt>{h.day}</dt>
                     <dd className={`tabular-nums ${h.opens ? "" : "text-stone"}`}>{formatHours(h)}</dd>
                   </div>
                 ))}
               </dl>
+              {fromGoogle && <p className="mt-3 text-sm text-stone">Källa: Google Maps</p>}
             </section>
           </div>
 

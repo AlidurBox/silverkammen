@@ -65,21 +65,21 @@ export type OpeningHours = {
   /** "HH:MM", eller null om stängt */
   opens: string | null;
   closes: string | null;
-  /** Lunchstängt, om det är angivet i Cliento */
+  /** Uppehåll mitt på dagen, om Google-profilen har två perioder */
   lunch?: { start: string; end: string } | null;
 };
 
 /**
- * Reserv för öppettiderna. Sajten hämtar de aktuella tiderna från Cliento
- * (se src/lib/cliento.ts) och använder bara dessa om Cliento inte svarar.
+ * Reserv för öppettiderna. Sajten hämtar de aktuella tiderna från Google-profilen
+ * (se src/lib/google-places.ts) och använder bara dessa om Google inte svarar.
  */
 export const fallbackOpeningHours: OpeningHours[] = [
-  { day: "Måndag", schemaDay: "Monday", opens: "09:00", closes: "18:00" },
-  { day: "Tisdag", schemaDay: "Tuesday", opens: "09:00", closes: "18:00" },
-  { day: "Onsdag", schemaDay: "Wednesday", opens: "09:00", closes: "18:00" },
-  { day: "Torsdag", schemaDay: "Thursday", opens: "09:00", closes: "18:00" },
-  { day: "Fredag", schemaDay: "Friday", opens: "09:00", closes: "18:00" },
-  { day: "Lördag", schemaDay: "Saturday", opens: "09:00", closes: "16:00" },
+  { day: "Måndag", schemaDay: "Monday", opens: "10:00", closes: "18:00" },
+  { day: "Tisdag", schemaDay: "Tuesday", opens: "10:00", closes: "18:00" },
+  { day: "Onsdag", schemaDay: "Wednesday", opens: "10:00", closes: "18:00" },
+  { day: "Torsdag", schemaDay: "Thursday", opens: "10:00", closes: "18:00" },
+  { day: "Fredag", schemaDay: "Friday", opens: "10:00", closes: "18:00" },
+  { day: "Lördag", schemaDay: "Saturday", opens: null, closes: null },
   { day: "Söndag", schemaDay: "Sunday", opens: null, closes: null },
 ];
 

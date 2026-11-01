@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BOOKING_PATH, business, formatHours, navigation } from "@/data/business";
-import { getOpeningHours } from "@/lib/cliento";
+import { getOpeningHours } from "@/lib/google-places";
 import { Container } from "@/components/ui/Container";
 import { SocialLinks } from "@/components/ui/SocialIcons";
 import { CurrentYear } from "./CurrentYear";
@@ -9,7 +9,7 @@ const heading = "label mb-5 text-ink";
 const link = "text-stone transition-colors hover:text-ink";
 
 export async function Footer() {
-  const openingHours = await getOpeningHours();
+  const { hours, fromGoogle } = await getOpeningHours();
 
   return (
     <footer className="border-t border-line bg-sand">
@@ -69,13 +69,14 @@ export async function Footer() {
         <div>
           <h2 className={heading}>Öppettider</h2>
           <dl className="space-y-1.5 text-stone">
-            {openingHours.map((h) => (
+            {hours.map((h) => (
               <div key={h.day} className="flex justify-between gap-6 sm:max-w-60">
                 <dt>{h.day}</dt>
                 <dd className="tabular-nums">{formatHours(h)}</dd>
               </div>
             ))}
           </dl>
+          {fromGoogle && <p className="mt-3 text-sm text-stone">Källa: Google Maps</p>}
         </div>
       </Container>
 

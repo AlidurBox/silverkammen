@@ -17,6 +17,8 @@ type ButtonLinkProps = {
   variant?: Variant;
   className?: string;
   external?: boolean;
+  /** Filnamn: länken laddar ner filen i stället för att öppna den. */
+  download?: string;
   /** Egen ikon. Standard: kalender för bokning, annars pil. */
   icon?: ReactNode;
 };
@@ -36,6 +38,7 @@ export function ButtonLink({
   variant = "primary",
   className = "",
   external = false,
+  download,
   icon,
 }: ButtonLinkProps) {
   const classes = `inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full px-7 text-[0.9375rem] font-medium transition-colors duration-200 ${variants[variant]} ${className}`;
@@ -45,6 +48,14 @@ export function ButtonLink({
       {children}
     </>
   );
+
+  if (download) {
+    return (
+      <a href={href} download={download} className={classes}>
+        {content}
+      </a>
+    );
+  }
 
   if (external) {
     return (

@@ -2,8 +2,8 @@
 
 Webbplats för Silverkammen, barbershop på Ringvägen 44 i Söderköping.
 Byggd med Next.js 16 (App Router), TypeScript och Tailwind CSS 4. All bokning
-sker via Clientos inbäddade widget. Det finns ingen egen backend, databas eller
-API-nyckel.
+sker via Clientos inbäddade widget. Det finns ingen egen backend eller databas.
+Den enda API-nyckeln är Googles, för öppettiderna (se nedan).
 
 ## Kom igång
 
@@ -21,7 +21,11 @@ npm start          # kör produktionsbuilden lokalt
 
 ```text
 src/
-  app/                  Sidor (/, /tjanster, /om-oss, /galleri, /boka, /kontakt),
+  app/
+    (site)/             Sidor med sidhuvud och sidfot (/, /tjanster, /om-oss,
+                        /galleri, /boka, /kontakt)
+    qr/                 QR-koder för nedladdning, utan sidhuvud och sidfot
+                        Övrigt i app/:
                         sitemap.ts, robots.ts, manifest.ts, opengraph-image.tsx
                         samt ikoner: icon.svg, favicon.ico, apple-icon.png
   components/
@@ -78,12 +82,20 @@ För hero passar en liggande bild i hög upplösning bäst på dator.
 
 ## Uppdatera företagsinformation och priser
 
-- **Öppettider** hämtas automatiskt från Silverkammens bokningssida hos
-  Cliento (`src/lib/cliento.ts`). Ändras tiderna i Cliento uppdateras footer,
-  kontaktsidan och Google-datan inom ungefär en timme, utan ny deploy.
-  Clientos dokumenterade API saknar öppettider, så de läses från den publika
-  bokningssidan. Går det inte används reservtiderna i `src/data/business.ts`
-  (`fallbackOpeningHours`) och ett meddelande skrivs i serverloggen.
+- **Öppettider** hämtas automatiskt från Silverkammens Google-profil via Places
+  API (`src/lib/google-places.ts`). Ändras tiderna på profilen uppdateras footer,
+  kontaktsidan och den strukturerade datan utan ny deploy, normalt inom någon
+  timme efter att Google publicerat ändringen. Går det inte används reservtiderna
+  i `src/data/business.ts` (`fallbackOpeningHours`) och ett meddelande skrivs i
+  serverloggen. Bokningsbara tider styrs fortfarande av schemat i Cliento.
+
+  Lägg in miljövariablerna i Vercel (Settings → Environment Variables) och kör en
+  ny deploy:
+
+  - `GOOGLE_PLACES_API_KEY`: nyckel från Google Cloud med Places API (New)
+    aktiverat och begränsad till det API:et. Sätt även en daglig kvot, eftersom
+    anrop över den fria kvoten kostar pengar.
+  - `GOOGLE_PLACE_ID`: profilens Place ID, som börjar med `ChIJ`.
 - **Kontaktuppgifter, adress och sociala medier:** `src/data/business.ts`.
   Ändringarna slår igenom i header, footer, kontaktsidan och den strukturerade
   datan för Google.
@@ -111,6 +123,15 @@ För hero passar en liggande bild i hög upplösning bäst på dator.
   normalt `/boka` dold i bakgrunden vid navigering, så widgeten och vald tjänst
   finns kvar när man kommer tillbaka. Har Next rensat bort sidan laddas `/boka`
   om automatiskt.
+
+## QR-koder
+
+`/qr` har knappar för att ladda ner två A4-affischer som PDF, en till hemsidan och
+en till bokningen. Sidan nås bara via direktlänk: inget länkar dit, den finns inte i
+sitemap, och sidan och filerna är markerade med noindex. Den har varken sidhuvud eller sidfot.
+Filerna ligger i `public/qr/` och skapas av `scripts/generate-qr-pdfs.mjs`. Ändras
+adress, telefon, logotyp eller länkar: justera skriptet vid behov, kör `npm run qr`
+och checka in filerna (kräver Node 22.18 eller senare).
 
 ## Domän och SEO
 

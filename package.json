@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "qr": "node scripts/generate-qr-pdfs.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.64.0",
@@ -15,12 +16,15 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@pdf-lib/fontkit": "^1.1.1",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
